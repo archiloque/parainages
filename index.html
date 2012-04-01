@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link href="parainage.css" type="text/css" rel="stylesheet">
+  <link href="bootstrap.min.css" type="text/css" rel="stylesheet">
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=fr&region=FR"></script>
+  <script type="text/javascript" src="data.js"></script>
+  <script type="text/javascript" src="parainage.js"></script>
+  <title>Parrains des candidats à la présidentielle 2012</title>
+</head>
+<body>
+<div id="navigation">
+  <h3>Parrains des candidats à la présidentielle 2012</h3>
+  <div id="refreshForm">
+    <div id="candicatesList"></div>
+  </div>
+  <br/>
+
+    <form id="adressForm" class="form-inline">
+        <input id="postalCode" type="number" maxlength="6" class="input-small" placeholder="Code postal">
+        <a class="btn" onclick="updatePostalCode(); return false;">Afficher</a>
+    </form>
+
+  <div id="license">Développé par <a target="_blank" href="http://archiloque.net">Julien Kirch / Archiloque,</a><br>
+    formattage et nettoyage des données par <a href="http://www.regardscitoyens.org/">Regards Citoyens</a>, merci à eux.
+  </div>
+</div>
+<div id="mapCanvas">
+</div>
+</body>
+</html>

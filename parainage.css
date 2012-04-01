@@ -1,0 +1,32 @@
+#navigation {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 190px;
+    height: 100%;
+}
+
+#license {
+    position: absolute;
+    bottom: 10px;
+}
+
+#license {
+    font-size: 10px;
+}
+
+#mapCanvas {
+    position: absolute;
+    top: 0;
+    left: 200px;
+    right: 0;
+    height: 100%
+}
+
+#candicatesList img {
+    height: 18px;
+}
+
+h3 {
+    padding-bottom: 20px;
+}
