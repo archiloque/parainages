@@ -1,27 +1,17 @@
 # encoding: UTF-8
 
-require 'json'
+# Transforme le csv de regards citoyens en json
+# Origine http://regardscitoyens.org/telechargement/presidentielles-2012/
+
 require 'csv'
+require 'json'
 
-list = JSON.parse(IO.read('liste.json'))
-CSV.open("rc.csv", "wb", {:col_sep => ';'}) do |csv|
-    csv << ['candidat', 'prénom', 'nom', 'long', 'lat']
-    list.each do |i|
-        csv << [
-            i['candidat'],
-            i['prénom'],
-            i['nom'],
-            (i['geolocalisation'] && i['geolocalisation']['location']) ? i['geolocalisation']['location']['lng'] : nil,
-            (i['geolocalisation'] && i['geolocalisation']['location']) ? i['geolocalisation']['location']['lat'] : nil
-        ]
-
-    end
-end
-
-list = list.select { |person| person['geolocalisation'] && person['geolocalisation']['location'] }
-
-result = []
 candicates_list = ['Nathalie Arthaud', 'Marine Le Pen', 'Nicolas Dupont-Aignan', 'François Bayrou', 'Jacques Cheminade', 'François Hollande', 'Eva Joly', 'Nicolas Sarkozy', 'Jean-Luc Mélenchon', 'Philippe Poutou']
+
+result = {}
+candicates_list.each do |c|
+    result[c] = []
+end
 
 AFFILIATIONS = {
     'DVG' => ', divers gauche',
@@ -54,7 +44,8 @@ AFFILIATIONS = {
     'RDSE' => ', Parti radical de gauche',
     'PRG' => ', Parti radical de gauche',
     'GDR' => ', gauche',
-    'CRC' => ', communiste'
+    'CRC' => ', communiste',
+    'MDC' => ', Mouvement des Citoyens'
 }
 
 def result_from_data person
@@ -68,18 +59,15 @@ def result_from_data person
     end
     {
         :name => "#{person['prénom']} #{person['nom']}, #{person['fonction'].capitalize}, #{person['localité']}#{affiliation}",
-        :position => person['geolocalisation']['location']
+        :lng => person['longitude'],
+        :lat => person['latitude']
     }
 end
 
-candicates_list.each do |candidate_name|
-    result << {
-        :candidate => candidate_name,
-        :people =>
-            list.
-                select { |person| person['candidat'] == candidate_name }.
-                collect { |person| result_from_data(person) }
-    }
-
+CSV.foreach("signatures_candidats_2012.csv", {:col_sep => ';', :headers => true}) do |row|
+    if row['longitude'] && row['latitude']
+        result[row['candidat']] << result_from_data(row)
+    end
 end
-File.open('../data.js', 'w') { |f| f.write("var data=#{result.to_json}") }
+
+File.open('../data.js', 'w') { |f| f.write("var data=#{(candicates_list.map { |c| {:candidate => c, :people => result[c]} }).to_json}") }

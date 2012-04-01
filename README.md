@@ -11,7 +11,7 @@ Ruby
 # Utilisation
 
 - récupérer le CSV de regards citoyens depuis http://regardscitoyens.org/telechargement/presidentielles-2012/
-- lancer scripts/01_regards.rb
+- lancer scripts/extract.rb
 - lancer scripts/03_regards.rb
 - lancer scripts/03_regards.rb
 - ouvrir le fichier index.html

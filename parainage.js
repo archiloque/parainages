@@ -71,7 +71,7 @@ $(document).ready(function () {
 
 function createMarker(candidateIndex, person) {
     person.marker = new google.maps.Marker({
-        position: new google.maps.LatLng(person.position.lat, person.position.lng),
+        position: new google.maps.LatLng(person.lat, person.lng),
         map: null,
         title: person.name,
         icon: possibleImages[candidateIndex]
